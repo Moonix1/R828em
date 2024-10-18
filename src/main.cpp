@@ -440,7 +440,7 @@ int main() {
 		cpu.load_addr(cpu.pc + i, program[i]);
 	}
 
-	cpu.execute(200000000);
+	cpu.execute(std::numeric_limits<double>::infinity());
 
 	std::cout << "R0: " << static_cast<i16>(cpu.r0) << std::endl;
 	std::cout << "R1: " << static_cast<i16>(cpu.r1) << std::endl;
