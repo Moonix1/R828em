@@ -118,6 +118,53 @@ public:
 				} break;
 				}
 			} break;
+			case STB: {
+				u16 *memory_addr = fetch_register_u16(cycles);
+				u8 mode = fetch_byte(cycles);
+				switch (mode) {
+				case 0xA0: {
+					u8 value = fetch_byte(cycles);
+					memory.data[*memory_addr] = value;
+				} break;
+				case 0xA1: {
+					u8 *value = fetch_register_u8(cycles);
+					memory.data[*memory_addr] = *value;
+				} break;
+				}
+
+				cycles--;
+			} break;
+			case STW: {
+				u16 *memory_addr = fetch_register_u16(cycles);
+				u8 mode = fetch_byte(cycles);
+				switch (mode) {
+				case 0xA0: {
+					u16 low_byte = fetch_byte(cycles);
+					u16 high_byte = fetch_byte(cycles);
+					memory.data[*memory_addr] = low_byte;
+					memory.data[*memory_addr + 1] = high_byte;
+				} break;
+				case 0xA1: {
+					u16 *value = fetch_register_u16(cycles);
+					memory.data[*memory_addr] = *value & 0xFF;
+					memory.data[*memory_addr + 1] = (*value >> 8) & 0xFF;
+				} break;
+				}
+
+				cycles--;
+			} break;
+			case LDB: {
+				u8 *dest = fetch_register_u8(cycles);
+				u16 *addr = fetch_register_u16(cycles);
+
+				*dest = memory.data[*addr];
+			} break;
+			case LDW: {
+				u16 *dest = fetch_register_u16(cycles);
+				u16 *addr = fetch_register_u16(cycles);
+
+				*dest = ((u16)memory.data[*addr]) | (u16)memory.data[*addr + 1];
+			} break;
 			case ADD: {
                 u16 *dest = fetch_register_u16(cycles);
                 u16 *reg1 = fetch_register_u16(cycles);
@@ -350,6 +397,8 @@ public:
 
 		STB		= 0xA6,
 		STW		= 0xA7,
+		LDB		= 0xA8,
+		LDW		= 0xA9,
 		
 		ADD		= 0xB1,
 		ADC		= 0xB2,
@@ -433,6 +482,14 @@ int main() {
 		cpu.POP, cpu.BYTE, cpu.BR0,
 		cpu.POP, cpu.WORD, cpu.R2,
 		cpu.POP, cpu.WORD, cpu.R3,
+		cpu.LDR3, 0x00, 0x00,
+		cpu.STB, cpu.R3, 0xA0, 0x02,
+		cpu.LDR3, 0x00, 0x01,
+		cpu.STW, cpu.R3, 0xA0, 0x00, 0x32,
+		cpu.LDR3, 0x00, 0x00,
+		cpu.LDB, cpu.BR1, cpu.R3,
+		cpu.LDR3, 0x00, 0x01,
+		cpu.LDW, cpu.R3, cpu.R3,
 		cpu.HLT,
 	};
 
