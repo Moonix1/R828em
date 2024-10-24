@@ -12,6 +12,7 @@ namespace RASM {
 	private:
 		Token FetchToken();
 
+		Token LexLabel();
 		Token LexKI();
 		Token LexNumber();
 	private:

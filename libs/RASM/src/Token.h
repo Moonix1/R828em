@@ -11,11 +11,13 @@ namespace RASM {
 		OPCODE,
 
 		SECTION,
+		ORG,
 
 		IDENT,
 
 		NUMBER,
 		HEX,
+		REG,
 
 		LPAREN,
 		RPAREN,
@@ -39,8 +41,10 @@ namespace RASM {
 		std::unordered_map<TokenType, std::string> tokenTypeToString = {
 			{ TokenType::OPCODE, "opcode" },
 			{ TokenType::SECTION, "section" },
+			{ TokenType::ORG, "org" },
 			{ TokenType::NUMBER, "number" },
 			{ TokenType::HEX, "hex" },
+			{ TokenType::REG, "reg" },
 			{ TokenType::LPAREN, "lparen" },
 			{ TokenType::RPAREN, "rparen" },
 			{ TokenType::LBRACE, "lbrace" },
@@ -64,8 +68,8 @@ namespace RASM {
 
 	static Token ExpectToken(std::vector<Token> &tokens, TokenType expect, int &pos) {
 		Token token = FetchToken(tokens, pos);
-		if (token.type == expect) { /*ERROR("Unexpected token, expected: {0} got: {1}",
-			TokenTypeToString(expect), TokenTypeToString(token.type)); exit(1);*/ }
+		if (token.type == expect) { ERROR("Unexpected token, expected: {0} got: {1}",
+			TokenTypeToString(expect), TokenTypeToString(token.type)); exit(1); }
 
 		return token;
 	}

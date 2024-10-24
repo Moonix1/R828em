@@ -58,12 +58,36 @@ namespace RASM {
 			|| value == "LB1"
 			|| value == "LB2"
 			|| value == "LB3"
+			|| value == "LDA"
+			|| value == "LDI"
 			|| value == "LDW"
+			|| value == "ADD"
+			|| value == "ADC"
+			|| value == "SUB"
+			|| value == "SBB"
+			|| value == "MUL"
+			|| value == "DIV"
+			|| value == "JMP"
 			|| value == "HLT")
 			return { .type = OPCODE, .value = value };
 
 		if (value == "SECTION")
 			return { .type = SECTION, .value = value };
+
+		if (value == "ORG")
+			return { .type = ORG, .value = value };
+
+		if (value == "R0"
+			|| value == "R1"
+			|| value == "R2"
+			|| value == "R3"
+			|| value == "RA"
+			|| value == "RI"
+			|| value == "B0"
+			|| value == "B1"
+			|| value == "B2"
+			|| value == "B3")
+			return { .type = REG, .value = value };
 
 		return { .type = IDENT, .value = value };
 	}

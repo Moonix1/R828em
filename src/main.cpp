@@ -80,19 +80,19 @@ public:
 				r3 = value;
 			} break;
 			case LB0: {
-				u16 value = fetch_word(cycles);
+				u16 value = fetch_byte(cycles);
 				b0 = value;
 			} break;
 			case LB1: {
-				u16 value = fetch_word(cycles);
+				u16 value = fetch_byte(cycles);
 				b1 = value;
 			} break;
 			case LB2: {
-				u16 value = fetch_word(cycles);
+				u16 value = fetch_byte(cycles);
 				b2 = value;
 			} break;
 			case LB3: {
-				u16 value = fetch_word(cycles);
+				u16 value = fetch_byte(cycles);
 				b3 = value;
 			} break;
 			case LDA: {
@@ -442,19 +442,20 @@ public:
 				equal = *fetch_register_u16(cycles) == *fetch_register_u16(cycles);
 			} break;
 			case JZ: {
-				u16 value = 0xD000 + fetch_word(cycles);
+				u16 value = fetch_word(cycles);
 				if (equal == 0) {
 					pc = value;
 				}
 			} break;
 			case JNZ: {
-				u16 value = 0xD000 + fetch_word(cycles);
+				u16 value = fetch_word(cycles);
 				if (equal != 0) {
 					pc = value;
 				}
 			} break;
 			case JMP: {
-				pc = 0xD000 + fetch_word(cycles);
+				u16 value = fetch_word(cycles);
+				pc = value;
 			} break;
 			case HLT: {
 				cycles = 0;
@@ -478,6 +479,7 @@ private:
 
 	u16 fetch_word(size_t &cycles) {
 		u8 low_byte = memory.data[pc];
+
 		u8 high_byte = memory.data[pc +  1];
 		pc += 2;
 

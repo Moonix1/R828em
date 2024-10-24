@@ -1,3 +1,5 @@
+ORG 0xD000
+
 ENTRY:
 	LR0 5246
 	LR1 52
@@ -6,4 +8,7 @@ ENTRY:
 	LR2 10000
 
 	LB3 255
+	LB2 32
+
+	ADD R0, R1, R2
 	HLT
